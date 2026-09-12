@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="ziqodevs">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#15151a"/>
+      <stop offset="1" stop-color="#08080b"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#c9c9d2"/>
+    </linearGradient>
+    <linearGradient id="dia" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c8fa4b"/>
+      <stop offset="1" stop-color="#8fbb1f"/>
+    </linearGradient>
+  </defs>
+  <rect x="1" y="1" width="62" height="62" rx="15" fill="url(#tile)" stroke="rgba(255,255,255,.16)" stroke-width="1.2"/>
+  <g fill="none" stroke-width="7.6" stroke-linecap="butt" stroke-linejoin="miter">
+    <path d="M16.5 17.5 H47.5 L27 46.5 H47.5" stroke="url(#bar)"/>
+    <path d="M47.5 17.5 L27 46.5" stroke="url(#dia)"/>
+  </g>
+  <circle cx="19.4" cy="46.5" r="3.8" fill="url(#dia)"/></svg>
