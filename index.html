@@ -1,314 +1,125 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ziqodevs | Build | think | Create |</title>
-<meta name="description" content="ziqodevs is an independent developer group building software, games, tools, programming languages and experimental projects.">
-<style>
-:root{
-  --bg:#050505;
-  --panel:#0b0b0b;
-  --panel2:#101010;
-  --text:#f5f5f5;
-  --muted:#969696;
-  --line:#202020;
-  --accent:#ffffff;
-  --shadow:0 20px 80px rgba(0,0,0,.45);
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  background:
-    radial-gradient(circle at 50% -10%,#202020 0,transparent 35%),
-    radial-gradient(circle at 10% 40%,#151515 0,transparent 25%),
-    var(--bg);
-  color:var(--text);
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  overflow-x:hidden;
-}
-body.light{
-  --bg:#f4f4f4;--panel:#fff;--panel2:#ededed;--text:#0b0b0b;
-  --muted:#5f5f5f;--line:#d7d7d7;--accent:#000;
-  background:radial-gradient(circle at 50% -10%,#fff 0,transparent 45%),var(--bg);
-}
-a{color:inherit;text-decoration:none}
-button{font:inherit}
-::selection{background:var(--accent);color:var(--bg)}
-#progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:9999}
-.noise{
-  position:fixed;inset:0;pointer-events:none;opacity:.035;z-index:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
-}
-header{
-  position:fixed;top:0;left:0;right:0;height:74px;z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 6vw;border-bottom:1px solid transparent;
-  transition:.3s;
-}
-header.scrolled{background:rgba(5,5,5,.78);backdrop-filter:blur(18px);border-color:var(--line)}
-body.light header.scrolled{background:rgba(244,244,244,.8)}
-.logo{font-weight:900;letter-spacing:-1.5px;font-size:20px}
-.logo span{opacity:.45}
-nav{display:flex;gap:26px;align-items:center}
-nav a{font-size:13px;color:var(--muted);transition:.2s}
-nav a:hover{color:var(--text)}
-.actions{display:flex;gap:8px}
-.icon-btn{
-  width:38px;height:38px;border:1px solid var(--line);border-radius:12px;
-  background:var(--panel);color:var(--text);cursor:pointer;transition:.2s;
-}
-.icon-btn:hover{transform:translateY(-2px);border-color:var(--muted)}
-.hero{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  text-align:center;padding:130px 6vw 90px;position:relative;z-index:1;
-}
-.hero-content{max-width:1000px}
-.eyebrow{
-  display:inline-flex;gap:9px;align-items:center;padding:8px 13px;
-  border:1px solid var(--line);border-radius:999px;color:var(--muted);
-  font-size:12px;background:rgba(255,255,255,.025);margin-bottom:28px;
-}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 15px var(--accent)}
-h1{
-  font-size:clamp(62px,12vw,155px);line-height:.83;letter-spacing:-.085em;
-  font-weight:950;
-}
-.gradient-text{
-  background:linear-gradient(100deg,var(--text),#666,var(--text));
-  background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
-  animation:shine 6s linear infinite;
-}
-@keyframes shine{to{background-position:220% center}}
-.hero p{
-  max-width:650px;margin:34px auto;color:var(--muted);font-size:18px;line-height:1.7;
-}
-.ctas{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
-.btn{
-  padding:13px 20px;border-radius:12px;border:1px solid var(--line);
-  background:var(--panel);color:var(--text);font-weight:750;font-size:14px;
-  transition:.25s;cursor:pointer;
-}
-.btn.primary{background:var(--accent);color:var(--bg);border-color:var(--accent)}
-.btn:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(0,0,0,.25)}
-.scroll{position:absolute;bottom:28px;color:var(--muted);font-size:11px;letter-spacing:2px;text-transform:uppercase}
-section{position:relative;z-index:1;padding:120px 7vw}
-.container{max-width:1200px;margin:auto}
-.section-label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:3px;margin-bottom:18px}
-.section-title{font-size:clamp(38px,6vw,76px);letter-spacing:-.06em;line-height:.95;margin-bottom:22px}
-.section-copy{color:var(--muted);max-width:700px;line-height:1.75;font-size:16px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:50px}
-.card{
-  min-height:250px;padding:28px;border:1px solid var(--line);border-radius:22px;
-  background:linear-gradient(145deg,var(--panel),var(--panel2));
-  transition:.35s;position:relative;overflow:hidden;
-}
-.card:before{
-  content:"";position:absolute;width:160px;height:160px;border-radius:50%;
-  background:var(--accent);filter:blur(80px);opacity:.035;right:-70px;top:-70px;
-}
-.card:hover{transform:translateY(-7px);border-color:#444;box-shadow:var(--shadow)}
-.card-num{font-size:12px;color:var(--muted)}
-.card h3{font-size:25px;margin:55px 0 10px;letter-spacing:-.04em}
-.card p{font-size:14px;color:var(--muted);line-height:1.6}
-.about{
-  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
-}
-.big-statement{font-size:clamp(30px,4vw,53px);line-height:1.05;letter-spacing:-.05em}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.stat{padding:24px;border:1px solid var(--line);border-radius:18px;background:var(--panel)}
-.stat strong{font-size:40px;letter-spacing:-.06em;display:block}
-.stat span{color:var(--muted);font-size:12px}
-.links{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:45px
-}
-.link-card{
-  border:1px solid var(--line);border-radius:20px;padding:25px;background:var(--panel);
-  transition:.25s;display:flex;align-items:center;justify-content:space-between
-}
-.link-card:hover{transform:translateY(-5px);border-color:#555}
-.link-card small{color:var(--muted);display:block;margin-top:5px}
-.arrow{font-size:25px}
-.terminal{
-  margin-top:50px;border:1px solid var(--line);border-radius:20px;overflow:hidden;
-  background:#050505;box-shadow:var(--shadow)
-}
-.term-top{height:42px;border-bottom:1px solid #1c1c1c;display:flex;align-items:center;padding:0 15px;gap:7px}
-.term-dot{width:9px;height:9px;border-radius:50%;background:#555}
-.term-body{padding:25px;font-family:"SFMono-Regular",Consolas,monospace;color:#cfcfcf;line-height:1.8;font-size:13px}
-.prompt{color:#777}.white{color:#fff}
-.cursor{display:inline-block;width:8px;height:15px;background:#fff;vertical-align:-2px;animation:blink 1s infinite}
-@keyframes blink{50%{opacity:0}}
-footer{padding:60px 7vw 35px;border-top:1px solid var(--line);position:relative;z-index:1}
-.footer-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;gap:30px;align-items:center}
-.footer-brand{font-weight:900;font-size:22px}
-.footer-links{display:flex;gap:18px;color:var(--muted);font-size:13px}
-.reveal{opacity:0;transform:translateY(25px);transition:.8s cubic-bezier(.2,.7,.2,1)}
-.reveal.visible{opacity:1;transform:none}
-@media(max-width:800px){
-  nav{display:none}
-  header{padding:0 5vw}
-  section{padding:85px 5vw}
-  .grid,.links{grid-template-columns:1fr}
-  .about{grid-template-columns:1fr;gap:40px}
-  .hero p{font-size:16px}
-  .footer-inner{flex-direction:column;align-items:flex-start}
-}
-</style>
-</head>
-<body>
-<div id="progress"></div><div class="noise"></div>
+<!doctype html>
+<html lang="en" data-theme="dark" data-accent="lime">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-<header id="header">
-  <a href="#" class="logo">ziqo<span>devs</span></a>
-  <nav>
-    <a href="#about">About</a>
-    <a href="#what">What we do</a>
-    <a href="#people">People</a>
-    <a href="#links">GitHub</a>
-  </nav>
-  <div class="actions">
-    <button class="icon-btn" id="theme" aria-label="Toggle theme">◐</button>
-  </div>
-</header>
+    <title>ziqodevs — build · think · create</title>
+    <meta
+      name="description"
+      content="ziqodevs is an independent developer group building software, games, tools, programming languages and strange experiments. Open source, shipped from the edge."
+    />
+    <meta name="author" content="ziqodevs" />
+    <meta name="theme-color" content="#060607" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f4f4f2" media="(prefers-color-scheme: light)" />
+    <link rel="canonical" href="https://ziqodevs.pages.dev/" />
 
-<main>
-<section class="hero">
-  <div class="hero-content reveal">
-    <div class="eyebrow"><span class="dot"></span> Independent developers · open source · experiments</div>
-    <h1><span class="gradient-text">ziqo</span><br>devs.</h1>
-    <p>
-      We build software, games, tools, programming languages, websites and strange experiments.
-      Some become projects. Some become lessons. Either way, we keep building.
-    </p>
-    <div class="ctas">
-      <a class="btn primary" href="https://github.com/ziqodevs" target="_blank">Explore GitHub ↗</a>
-      <a class="btn" href="#what">See what we build ↓</a>
-    </div>
-  </div>
-  <div class="scroll">Scroll to explore</div>
-</section>
+    <!-- icons -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="mask-icon" href="/favicon.svg" color="#c8fa4b" />
 
-<section id="about">
-<div class="container">
-  <div class="about reveal">
-    <div>
-      <div class="section-label">01 / About</div>
-      <div class="big-statement">
-        ziqodevs is a place for ideas that are too interesting to leave as ideas.
-      </div>
-    </div>
-    <div>
-      <p class="section-copy">
-        We are an independent developer group focused on making things from scratch.
-        Our work can range from tiny utilities and web projects to games, developer tools,
-        experimental software and programming languages.
-      </p>
-      <div class="terminal">
-        <div class="term-top"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span></div>
-        <div class="term-body">
-          <div><span class="prompt">$</span> ziqo init</div>
-          <div><span class="white">idea</span> → build something weird</div>
-          <div><span class="white">code</span> → make it work</div>
-          <div><span class="white">test</span> → probably break it</div>
-          <div><span class="white">repeat</span> → indefinitely<span class="cursor"></span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</section>
+    <!-- open graph / twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ziqodevs" />
+    <meta property="og:title" content="ziqodevs — build · think · create" />
+    <meta
+      property="og:description"
+      content="An independent developer group building software, games, tools, programming languages and strange experiments."
+    />
+    <meta property="og:url" content="https://ziqodevs.pages.dev/" />
+    <meta property="og:image" content="/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="ziqodevs — build, think, create" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ziqodevs — build · think · create" />
+    <meta
+      name="twitter:description"
+      content="An independent developer group building software, games, tools, programming languages and strange experiments."
+    />
+    <meta name="twitter:image" content="/og.png" />
 
-<section id="what">
-<div class="container">
-  <div class="section-label reveal">02 / What we do</div>
-  <h2 class="section-title reveal">Build things.<br>Try things.</h2>
-  <p class="section-copy reveal">There is no single box for what we make. That would be terribly convenient, and therefore suspicious.</p>
+    <link rel="preconnect" href="https://api.github.com" crossorigin />
+    <link rel="manifest" href="/site.webmanifest" />
 
-  <div class="grid">
-    <article class="card reveal"><span class="card-num">01</span><h3>Software</h3><p>Apps, utilities, developer tools and experimental software designed to solve problems or simply explore an idea.</p></article>
-    <article class="card reveal"><span class="card-num">02</span><h3>Games</h3><p>Games and interactive projects, from small experiments to larger worlds, mechanics and prototypes.</p></article>
-    <article class="card reveal"><span class="card-num">03</span><h3>Languages</h3><p>Programming-language experiments, compilers, runtimes and tools for exploring new ways to write code.</p></article>
-    <article class="card reveal"><span class="card-num">04</span><h3>Web</h3><p>Websites and web applications with a focus on clean interfaces, useful interactions and interesting ideas.</p></article>
-    <article class="card reveal"><span class="card-num">05</span><h3>Open Source</h3><p>Projects published for people to inspect, use, modify and build upon.</p></article>
-    <article class="card reveal"><span class="card-num">06</span><h3>Experiments</h3><p>Odd concepts, prototypes and technical experiments that exist because someone had to find out if it would work.</p></article>
-  </div>
-</div>
-</section>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "ziqodevs",
+        "alternateName": "ziqo devs",
+        "url": "https://ziqodevs.pages.dev/",
+        "logo": "https://ziqodevs.pages.dev/icon-512.png",
+        "description": "Independent developer group building software, games, tools, programming languages and experimental projects.",
+        "sameAs": [
+          "https://github.com/ziqodevs",
+          "https://github.com/Seigh-sword",
+          "https://github.com/suripewepedi"
+        ],
+        "member": [
+          { "@type": "Person", "name": "Seigh sword", "url": "https://github.com/Seigh-sword" },
+          { "@type": "Person", "name": "suripewepedi", "url": "https://github.com/suripewepedi" }
+        ]
+      }
+    </script>
 
-<section id="people">
-<div class="container">
-  <div class="section-label reveal">03 / The people</div>
-  <h2 class="section-title reveal">Main links.</h2>
-  <p class="section-copy reveal">The main places to find the work and the people behind it.</p>
+    <!--
+      Paint the right theme + accent *before* first frame so there is no flash
+      of the wrong palette. Inline, synchronous, ~30 lines, zero dependencies.
+    -->
+    <script>
+      ;(function () {
+        try {
+          var root = document.documentElement
+          var store = window.localStorage
+          var savedTheme = store.getItem('ziqo:theme')
+          var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches
+          var theme = savedTheme || (prefersLight ? 'light' : 'dark')
+          var accent = store.getItem('ziqo:accent') || 'lime'
+          root.dataset.theme = theme
+          root.dataset.accent = accent
+          root.style.colorScheme = theme
+          // Hint the browser about the background so overscroll never flashes white.
+          root.style.backgroundColor = theme === 'light' ? '#f4f4f2' : '#060607'
+        } catch (e) {
+          /* private mode / blocked storage — defaults are fine */
+        }
+      })()
+    </script>
 
-  <div class="links">
-    <a class="link-card reveal" href="https://github.com/ziqodevs" target="_blank">
-      <div><strong>ziqodevs</strong><small>Organization · GitHub</small></div><span class="arrow">↗</span>
-    </a>
-    <a class="link-card reveal" href="https://github.com/Seigh-sword" target="_blank">
-      <div><strong>Seigh-sword</strong><small>Main developer · GitHub</small></div><span class="arrow">↗</span>
-    </a>
-    <a class="link-card reveal" href="https://github.com/suripewepedi" target="_blank">
-      <div><strong>suripewepedi</strong><small>Main developer · GitHub</small></div><span class="arrow">↗</span>
-    </a>
-  </div>
-</div>
-</section>
-
-<section>
-<div class="container">
-  <div class="reveal" style="text-align:center;border:1px solid var(--line);border-radius:28px;padding:70px 25px;background:linear-gradient(145deg,var(--panel),transparent)">
-    <div class="section-label">04 / Keep building</div>
-    <h2 class="section-title">Ideas become<br>real projects.</h2>
-    <p class="section-copy" style="margin:0 auto 30px">Follow the code, explore the projects and see what gets built next.</p>
-    <a class="btn primary" href="https://github.com/ziqodevs" target="_blank">Visit ziqodevs on GitHub ↗</a>
-  </div>
-</div>
-</section>
-</main>
-
-<footer>
-  <div class="footer-inner">
-    <div><div class="footer-brand">ziqodevs</div><small style="color:var(--muted)">Built by people who keep making things.</small></div>
-    <div class="footer-links">
-      <a href="https://github.com/ziqodevs" target="_blank">GitHub</a>
-      <a href="https://github.com/Seigh-sword" target="_blank">Seigh-sword</a>
-      <a href="https://github.com/suripewepedi" target="_blank">suripewepedi</a>
-    </div>
-  </div>
-</footer>
-
-<script>
-const header=document.getElementById("header");
-const progress=document.getElementById("progress");
-const theme=document.getElementById("theme");
-
-window.addEventListener("scroll",()=>{
-  header.classList.toggle("scrolled",scrollY>20);
-  const max=document.documentElement.scrollHeight-innerHeight;
-  progress.style.width=(scrollY/max*100)+"%";
-});
-
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting) entry.target.classList.add("visible");
-  });
-},{threshold:.12});
-document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
-
-theme.addEventListener("click",()=>{
-  document.body.classList.toggle("light");
-  localStorage.setItem("ziqo-theme",document.body.classList.contains("light")?"light":"dark");
-});
-if(localStorage.getItem("ziqo-theme")==="light") document.body.classList.add("light");
-
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener("click",e=>{
-    e.preventDefault();
-    document.querySelector(a.getAttribute("href"))?.scrollIntoView({behavior:"smooth"});
-  });
-});
-</script>
-</body>
+    <style>
+      /* Critical first-frame shell: keeps the boot from being a white void. */
+      html { background: #060607 }
+      html[data-theme='light'] { background: #f4f4f2 }
+      #boot {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        gap: 14px;
+        font: 500 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #6a6a72;
+        z-index: 10;
+        transition: opacity 0.45s ease, visibility 0.45s;
+      }
+      #boot[data-done] { opacity: 0; visibility: hidden }
+      #boot span { display: block; width: 34px; height: 2px; background: #c8fa4b; animation: bootslide 1.1s ease-in-out infinite }
+      @keyframes bootslide { 0%, 100% { transform: scaleX(0.25); opacity: 0.4 } 50% { transform: scaleX(1); opacity: 1 } }
+      @media (prefers-reduced-motion: reduce) { #boot span { animation: none } }
+    </style>
+  </head>
+  <body>
+    <div id="boot" aria-hidden="true"><span></span>booting</div>
+    <div id="root"></div>
+    <noscript>
+      ziqodevs is an independent developer group building software, games, tools and programming
+      languages. Enable JavaScript for the full experience, or read everything on
+      <a href="https://github.com/ziqodevs">github.com/ziqodevs</a>.
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

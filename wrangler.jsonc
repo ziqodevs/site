@@ -1,0 +1,32 @@
+{
+  // ziqodevs — single Worker serving the built SPA *and* its edge API.
+  // Deploy: npm run deploy   (or connect the repo in the Cloudflare dashboard:
+  // build command `npm run build`, output directory `dist`)
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ziqodevs",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    // One-page app: unknown paths fall back to index.html so deep links work.
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "single-page-application",
+    // Everything else is served straight from the edge; only the API runs code.
+    "run_worker_first": ["/api/*"]
+  },
+
+  "vars": {
+    "SITE_VERSION": "2.0.0",
+    "GITHUB_ORG": "ziqodevs"
+  },
+
+  // Secrets (optional, only if you want higher GitHub rate limits):
+  //   npx wrangler secret put GITHUB_TOKEN
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 0.1
+  }
+}
