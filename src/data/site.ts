@@ -79,14 +79,14 @@ export const PEOPLE: Person[] = [
     ],
   },
   {
-    login: 'suripewepedi',
-    name: 'suripewepedi',
+    login: 'suripewepedie',
+    name: 'suripewepedie',
     role: 'Main developer',
     location: 'somewhere online',
     bio: 'Second pair of hands, second set of opinions. Keeps the org honest and the experiments running.',
-    url: 'https://github.com/suripewepedi',
+    url: 'https://github.com/suripewepedie',
     chips: [
-      { label: 'repos', value: '—' },
+      { label: 'joined', value: '2026' },
       { label: 'focus', value: 'shipping' },
     ],
   },
