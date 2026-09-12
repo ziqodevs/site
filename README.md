@@ -91,6 +91,29 @@ Headers (`public/_headers`) mark hashed assets `immutable` for a year and apply
 nosniff / frame / referrer / permissions-policy defaults everywhere else.
 Deep links are handled by `assets.not_found_handling = "single-page-application"`.
 
+## Environment variables
+
+**You need none to run or deploy this.** The client bundle reads zero env vars (no
+`VITE_*` anything), so one build artifact deploys anywhere. Everything configurable
+lives on the Worker side:
+
+| Variable | Kind | Required? | Default | What it does |
+| --- | --- | --- | --- | --- |
+| `SITE_VERSION` | `vars` in `wrangler.jsonc` | no | `"2.0.0"` | cache-buster key + `/api/edge` build tag + GitHub user-agent |
+| `GITHUB_ORG` | `vars` in `wrangler.jsonc` | no | `"ziqodevs"` | which org `/api/org` aggregates |
+| `GITHUB_TOKEN` | **secret** | no | — | raises GitHub API limit 60/h → 5000/h; Worker adds `Bearer` when present |
+| `ASSETS` | binding | auto | — | created by the `assets` config, not set by hand |
+
+```bash
+npx wrangler secret put GITHUB_TOKEN   # optional, production
+echo 'GITHUB_TOKEN=ghp_...' >> .dev.vars   # optional, local wrangler dev only (gitignored)
+```
+
+Deploy-time only (CI, never in the repo): `CLOUDFLARE_API_TOKEN` +
+`CLOUDFLARE_ACCOUNT_ID` for `wrangler deploy` without `wrangler login`, and
+`NODE_VERSION=22` if your Cloudflare Git-integration build image defaults older
+(wrangler 4 needs Node ≥ 22).
+
 ## Testing
 
 ```bash
